@@ -1,5 +1,8 @@
 server:
-  port: 8082 # 注意端口不能冲突
+  port: 9000
 spring:
   application:
     name: order-service
+  cloud:
+    nacos:
+      server-addr: localhost:8848
