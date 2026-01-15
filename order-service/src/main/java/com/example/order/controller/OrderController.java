@@ -28,7 +28,7 @@ public class OrderController {
     private DiscoveryClient discoveryClient;
 
     // --- 1. 手写负载均衡版 ---
-    @GetMapping("/create/{productId}")
+    @GetMapping("/create/manual/{productId}")
     public Order createOrderManual(@PathVariable("productId") Long productId) {
 
         //手写负载均衡算法
@@ -64,6 +64,24 @@ public class OrderController {
         order.setProductName(product.getName()); // 数据来自商品服务
         order.setTotalPrice(product.getPrice());
 
+        return order;
+    }
+
+
+    // --- 2. 自动负载均衡版 (之前的代码) ---
+    @GetMapping("/create/{productId}")
+    public Order createOrder(@PathVariable("productId") Long productId) {
+        // 直接用服务名，@LoadBalanced 会帮我们在底层做和上面一样的事情
+        String url = "http://product-service/product/" + productId;
+
+        // 使用注入的、带负载均衡功能的 restTemplate
+        ProductDTO product = restTemplate.getForObject(url, ProductDTO.class);
+
+        Order order = new Order();
+        order.setOrderId(System.currentTimeMillis());
+        order.setProductId(product.getId());
+        order.setProductName(product.getName());
+        order.setTotalPrice(product.getPrice());
         return order;
     }
 
