@@ -8,8 +8,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="product-service" />
-        <module name="mall-common" />
         <module name="order-service" />
+        <module name="mall-common" />
+        <module name="mall-gateway" />
       </profile>
     </annotationProcessing>
   </component>
