@@ -1,7 +1,9 @@
 package com.example.order.controller;
 
+import com.example.common.entity.Product;
 import com.example.order.DO.Order;
 import com.example.order.DO.ProductDTO;
+import com.example.order.feign.ProductClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -26,6 +28,11 @@ public class OrderController {
     //发现客户端
     @Autowired
     private DiscoveryClient discoveryClient;
+
+    // 注入我们定义的 Feign 接口
+    // Spring 会在这个接口运行时动态生成一个代理对象
+    @Autowired
+    private ProductClient productClient;
 
     // --- 1. 手写负载均衡版 ---
     @GetMapping("/create/manual/{productId}")
@@ -82,6 +89,25 @@ public class OrderController {
         order.setProductId(product.getId());
         order.setProductName(product.getName());
         order.setTotalPrice(product.getPrice());
+        return order;
+    }
+
+    @GetMapping("/create/feign/{productId}")
+    public Order createOrderFeign(@PathVariable("productId") Long productId) {
+
+        System.out.println("收到下单请求，准备通过 Feign 调用商品服务...");
+
+        // 以前：restTemplate.getForObject(...)
+        // 现在：像调用本地方法一样简单
+        //它会自动帮我们实现负载均衡
+        Product product = productClient.getProductById(productId);
+
+        Order order = new Order();
+        order.setOrderId(System.currentTimeMillis());
+        order.setProductId(product.getId());
+        order.setProductName(product.getName());
+        order.setTotalPrice(product.getPrice());
+
         return order;
     }
 

@@ -3,7 +3,10 @@ package com.example.order;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
+
+@EnableFeignClients //开启Feign扫描
 @EnableDiscoveryClient //开启服务发现
 @SpringBootApplication
 public class OrderServiceApplication {

@@ -31,6 +31,12 @@
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.example.common</groupId>
+            <artifactId>mall-common</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
 
     </dependencies>
 </project>

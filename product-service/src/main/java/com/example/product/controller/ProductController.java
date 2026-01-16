@@ -1,6 +1,6 @@
 package com.example.product.controller;
 
-import com.example.product.DO.Product;
+import com.example.common.entity.Product;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
