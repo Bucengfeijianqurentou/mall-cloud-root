@@ -1,0 +1,23 @@
+server:
+  port: 88 # 网关通常用 80, 88, 8080 等好记的端口
+
+spring:
+  application:
+    name: mall-gateway
+  cloud:
+    nacos:
+      server-addr: localhost:8848 # 注册到 Nacos
+    gateway:
+      routes:
+        # --- 路由规则 1：商品服务 ---
+        - id: product-route # 路由ID，唯一即可
+          # uri: http://localhost:8081 # 不推荐，这是写死地址
+          uri: lb://product-service    # 推荐，lb代表LoadBalance，后面跟服务名
+          predicates:
+            - Path=/product/** # 断言：路径匹配 /product/** 的请求，都转过去
+
+        # --- 路由规则 2：订单服务 ---
+        - id: order-route
+          uri: lb://order-service
+          predicates:
+            - Path=/order/**
