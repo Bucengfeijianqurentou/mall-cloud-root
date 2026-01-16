@@ -1,0 +1,20 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: product-service          # 应用名，用于服务注册和配置拉取
+
+  cloud:
+    nacos:
+      # 服务发现配置
+      discovery:
+        server-addr: localhost:8848
+        enabled: true
+
+      # 配置中心配置
+      config:
+        server-addr: localhost:8848
+        file-extension: yaml       # 远程配置文件格式（如 order-service.yaml）
+        group: DEFAULT_GROUP
+        # namespace: your-namespace-id  # 如需隔离环境可指定
